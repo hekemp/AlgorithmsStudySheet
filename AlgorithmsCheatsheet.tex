@@ -1,0 +1,408 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass[landscape,twoside]{article}%
+%Options -- Point size:  10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper (default), a4paper, a5paper, b5paper
+%                        legalpaper, executivepaper
+%        -- Orientation  (portrait is the default)
+%                        landscape
+%        -- Print size:  oneside (default), twoside
+%        -- Quality      final(default), draft
+%        -- Title page   notitlepage, titlepage(default)
+%        -- Columns      onecolumn(default), twocolumn
+%        -- Equation numbering (equation numbers on the right is the default)
+%                        leqno
+%        -- Displayed equations (centered is the default)
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Open bibliography style (closed is the default)
+%                        openbib
+% For instance the command
+%           \documentclass[a4paper,12pt,leqno]{article}
+% ensures that the paper size is a4, the fonts are typeset at the size 12p
+% and the equation numbers are on the left side
+%
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[landscape]{geometry}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tabularx}
+\usepackage[mono=false]{libertine}
+\usepackage{enumitem}
+%-------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\geometry{top=0.5in, left=0.5in, right=0.5in, bottom=0.5in}
+
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+\setitemize{noitemsep, topsep=0pt, parsep=0pt, partopsep=0pt}
+\setenumerate{noitemsep, topsep=0pt, parsep=0pt, partopsep=0pt}
+
+\newcommand{\Break}{\textbf{break}}
+\newcommand{\Var}[1]{\textsf{#1}}
+
+\begin{document}
+\raggedright
+\begin{multicols}{3}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\subsection{Master Theorem}
+
+\begin{itemize}
+	\item If $a f(n/b) = \kappa f(n)$ for some constant $\kappa < 1$, then $T(n) = \Theta(f(n))$.
+	\item If $a f(n/b) = K f(n)$ for some constant $K > 1$, then $T(n) = \Theta(n^{\log_b a})$.
+	\item If $a f(n/b) = f(n)$, then $T(n) = \Theta(f(n) \log_b n)$.
+\end{itemize}
+
+\subsection{Annihilators}
+\begin{tabularx}{\columnwidth}{|*{2}{c|}}
+	\hline
+	Operator & Functions annihilated \\
+	\hline
+	$\textbf{E} - 1$ & $\alpha$ \\
+	$\textbf{E} - a$ & $\alpha a^n$ \\
+	$(\textbf{E} - a)(\textbf{E} - b)$ & $\alpha a^n + \beta b^n$ \\
+	$(\textbf{E} - a_0)(\textbf{E} - a_1)\cdots(\textbf{E} - a_k)$ & $\sum_{i=0}^{k} \alpha_i a_i^n$ \\
+	$(\textbf{E} - 1)^2$ & $\alpha n + \beta$ \\
+	$(\textbf{E} - a)^2$ & $(\alpha n + \beta)a^n$ \\
+	$(\textbf{E} - a)^2(\textbf{E} - b)$ & $(\alpha n + \beta)a^b + \gamma b^n$ \\
+	$(\textbf{E} - a)^d$ & $(\sum_{i = 0}^{d - 1} \alpha_i n^i)a^n$ \\
+	\hline
+	\hline
+	\multicolumn{2}{|X|}{If $X$ annihilates $f$, then $X$ also annihilates $\textbf{E} f$.} \\
+	\multicolumn{2}{|X|}{If $X$ annihilates both $f$ and $g$, then $X$ also annihilates $f \pm g$.} \\
+	\multicolumn{2}{|X|}{If $X$ annihilates $f$, then $X$ also annihilates $\alpha f$, for any constant $\alpha$.} \\
+	\hline
+	\hline
+	\multicolumn{2}{|X|}{If $X$ annihilates $f$ and $Y$ annihilates $g$, then $XY$ annihilates $f \pm g$.} \\
+	\hline
+\end{tabularx}
+
+\subsection{Tower of Hanoi - Vanilla, Variant 0}
+\begin{algorithmic}[1]
+	\Function{Hanoi}{$n, src, dst, tmp$}
+		\If{$n > 0$}
+			\State{\Call{Hanoi}{$n-1, src, tmp, dst$}}
+			\State{move disk $n$ from $src$ to $dst$}
+			\State{\Call{Hanoi}{$n-1, tmp, dst, src$}}
+		\EndIf
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Variant 1 - Moves Must Involve Temp/0} 
+\begin{algorithmic}[1]
+	\Function{HanoiVariant1}{$n, src, dst, tmp$}
+		\If{$n>0$}
+			\State{\Call{HanoiVariant1}{$n-1, src, dst, tmp$}}
+			\State{move disk $n$ from $src$ to $tmp$}
+			\State{\Call{HanoiVariant1}{$n-1, dst, src, tmp$}}
+			\State{move disk $n$ from $tmp$ to $dst$}
+			\State{\Call{HanoiVariant1}{$n-1, src, dst, tmp$}}
+		\EndIf{}
+	\EndFunction{}
+\end{algorithmic}
+
+\subsection{Variant 2 - Counterclock: only Src->Tmp->Dest->Src}
+\begin{algorithmic}[1]
+	\Function{HanoiVariant2}{$n, src, dst, tmp$}
+		\If{$n=1$}
+			\State{move disk $n$ from $src$ to $tmp$}
+			\State{move disk $n$ from $tmp$ to $dst$}
+		\ElsIf{$n>0$}
+			\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}
+			\State{move disk $n$ from $src$ to $tmp$}
+			\State{\Call{HanoiVariant2}{$n-2, dst, tmp, src$}}
+			\State{move disk $n-1$ from $dst$ to $src$}
+			\State{\Call{HanoiVariant2}{$n-2, tmp, src, dst$}}
+			\State{move disk $n$ from $tmp$ to $dst$}
+			\State{\Call{HanoiVariant2}{$n-1, src, dst, tmp$}}
+		\EndIf
+	\EndFunction{}
+\end{algorithmic}
+
+\subsection{Merge Sort}
+\begin{algorithmic}[1]
+	\Function{MergeSort}{$A[1..n]$}
+		\If{$n > 1$}
+			\State{$m \gets \left\lfloor n / 2 \right\rfloor$}
+			\State{\Call{MergeSort}{$A[1..m]$}}
+			\State{\Call{MergeSort}{$A[m+1..n]$}}
+			\State{\Call{Merge}{$A[1..n], m$}}
+		\EndIf
+	\EndFunction
+	\Function{Merge}{$A[1..n], m$}
+		\State{$i \gets 1; j \gets m + 1$}
+		\For{$k \gets 1, n$}
+			\If{$j > n$}
+				\State{$B[k] \gets A[i] ; i \gets i + 1$}
+			\ElsIf{$i > m$}
+				\State{$B[k] \gets A[j] ; j \gets j + 1$}
+			\ElsIf{$A[i] < A[j]$}
+				\State{$B[k] \gets A[i] ; i \gets i + 1$}
+			\Else
+				\State{$B[k] \gets A[j] ; j \gets j + 1$}
+			\EndIf
+		\EndFor
+		\For{$k \gets 1, n$}
+			\State{$A[k] \gets B[k]$}
+		\EndFor
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Quicksort}
+\begin{algorithmic}[1]
+	\Function{QuickSort}{$A[1..n]$}
+		\If{$n > 1$}
+			\State{Choose a pivot element $A[p]$}
+			\State{$r \gets \Call{Partition}{A, p}$}
+			\State{\Call{QuickSort}{$A[1..r-1]$}}
+			\State{\Call{QuickSort}{$A[r+1..n]$}}
+		\EndIf
+	\EndFunction
+	\Function{Partition}{$A[1..n], p$}
+		\State{swap $A[p] \leftrightarrow A[n]$}
+		\State{$i \gets 0 ; j \gets n$}
+		\While{$i < j$}
+			\State{repeat $i \gets i + 1$ until $i \geq j$ or $A[i] \geq A[n]$}
+			\State{repeat $j \gets j - 1$ until $i \geq j$ or $A[j] \leq A[n]$}
+			\If{$i < j$}
+				\State{swap $A[i] \leftrightarrow A[j]$}
+			\EndIf
+		\EndWhile
+		\State{swap $A[i] \leftrightarrow A[n]$}
+		\State{\Return{$i$}}
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Longest Common Subsequence}
+\begin{algorithmic}[1]
+	\Function{LCS}{$A[1..m], B[1..n]$}
+		\If{$m = 0$ or $n = 0$}
+			\State{\Return{0}}
+		\Else{}
+			\State{$a \gets$ \Call{LCS}{$A[2..m], B[1..n]$}}
+			\State{$b \gets$ \Call{LCS}{$A[1..m], B[2..n]$}}
+			\State{$c \gets 0$}
+			\If{$A[1] = B[1]$}
+				\State{$c \gets 1 +$ \Call{LCS}{$A[2..m], B[2..n]$}}
+			\EndIf{}
+			\State{$r \gets$ the maximum of $a$, $b$, and $c$}
+		\EndIf{}
+	\EndFunction{}
+\end{algorithmic}
+
+\subsection{Longest Oscillating Subsequence}
+\begin{algorithmic}[1]
+	\Function{LOS}{$X[1..n]$}
+		\State{\Return{\Call{LOS2}{$X[1..n], null, false$}}}
+	\EndFunction{}
+	\Function{LOS2}{$X[1..n], prevValue, isEven$}
+		\If{$n = 0$}
+			\State{\Return{$0$}}
+		\Else{}
+			\If{$prevValue = null$}
+				\State{$result \gets true$}
+			\ElsIf{$isEven$}
+				\State{$result \gets prevValue > X[1]$}
+			\Else{}
+				\State{$result \gets prevValue < X[1]$}
+			\EndIf{}
+			
+			\State{$a \gets$ \Call{LOS2}{$X[2..n], prevValue, isEven$}}
+			\If{$result$}
+				\State{$b \gets 1 +$ \Call{LOS2}{$X[2..n], X[1],$ not $isEven$}}
+			\Else{}
+				\State{$b \gets 0$}
+			\EndIf{}
+			\State{\Return{the maximum of $a$ and $b$}}
+		\EndIf{}
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Longest Accelerating Subsequence}
+\begin{algorithmic}[1]
+	\Function{LXS}{$X[1..n]$}
+		\State{\Return{\Call{LXS2}{$X[1..n], null, null$}}}
+	\EndFunction{}
+	\Function{LXS2}{$X[1..n], prevValue, prevDiff$}
+		\If{$n = 0$}
+			\State{\Return{$0$}}
+		\Else{}
+			\If{$prevValue = null$ or $prevDiff = null$}
+				\State{$result \gets true$}
+			\Else{}
+				\State{$result \gets X[1] - prevValue > prevDiff$}
+			\EndIf{}
+			\State{$a \gets$ \Call{LXS2}{$X[2..n], prevValue, prevDiff$}}
+			\If{$result$}
+				\If{$prevValue = null$}
+					\State{$b \gets 1 +$ \Call{LXS2}{$X[2..n], X[1], null$}}
+				\Else{}
+					\State{$b \gets 1 +$ \Call{LXS2}{$X[2..n], X[1], X[1] - prevValue$}}
+				\EndIf{}
+			\Else{}
+				\State{$b \gets 0$}
+			\EndIf{}
+			\State{\Return{the maximum of $a$ and $b$}}
+		\EndIf{}
+	\EndFunction{}
+\end{algorithmic}
+
+\subsection{Subset Sum - Basic}
+\begin{algorithmic}[1]
+	\Function{SubsetSum}{$X[1..n], T$}
+		\If{$T = 0$}
+			\State{\Return{\Var{True}}}
+		\ElsIf{$T < 0$ or $n = 0$}
+			\State{\Return{\Var{False}}}
+		\Else
+			\State{\Return{$\Call{SubsetSum}{X[1..n-1], T} \vee \Call{SubsetSum}{X[1..n-1], T - X[n]}$}}
+		\EndIf
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Subset Sum - Memoized}
+\begin{algorithmic}[1]
+	\Function{SubsetSum}{$X[1..n], T$}
+		\State{$S[n+1, 0] \gets \Var{True}$}
+		\For{$t \gets 1, T$}
+			\State{$S[n+1, t] \gets \Var{False}$}
+		\EndFor
+		\For{$i \gets n, 1$}
+			\State{$S[i,0] \gets \Var{True}$}
+			\For{$t \gets 1, X[i] - 1$}
+				\State{$S[i, t] \gets S[i+1, t]$} \Comment{Avoid the case $t < 0$}
+			\EndFor
+			\For{$t \gets X[i], T$}
+				\State{$S[i,t] \gets S[i+1, t] \vee S[i+1, t-X[i]]$}
+			\EndFor
+		\EndFor
+		\State{\Return{$S[1, T]$}}
+	\EndFunction
+\end{algorithmic}
+
+\section{Dynamic Programming}
+\begin{enumerate}
+	\item Formulate the problem recursively
+	\item Build solutions to recurrence from the bottom up
+	\begin{enumerate}
+		\item Identify the subproblems
+		\item Analyze space and running time
+		\item Choose a data structure to memoize intermediate results
+		\item Identify dependencies between subproblems
+		\item Find a good evaluation order
+		\item Write down the algorithm
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Longest Palindrome Subsequence}
+\begin{algorithmic}[1]
+	\Function{LPS}{$text[1..n]$}
+		\State{$memoized \gets$ empty hash map}
+		\State $memoized[$the empty list$] \gets 0$
+		\For{$i \gets 1, n$}
+			\For{$j \gets 1, n-i$}
+				\State $subproblem \gets text[j..j+i]$
+				\If{$i = 1$}
+					\State $memoized[subproblem] \gets 1$ \Comment A single letter is always a palindrome of length one
+				\Else
+					\State $r \gets$ the maximum of $memoized[subproblem[2..i]]$ and $memoized[subproblem[1..i-1]]$
+					\If{$subproblem[1] = subproblem[i]$}
+						\State $r \gets$ the maximum of $r$ and $2 + memoized[subproblem[2..i-1]]$
+					\EndIf
+					\State $memoized[subproblem] \gets r$
+				\EndIf
+			\EndFor
+		\EndFor
+		\State \Return $memoized[text]$
+	\EndFunction
+\end{algorithmic}
+
+\subsection{Median Selection / kth largest}
+\begin{algorithmic}[1]
+	\Function{QuickSelect}{$A[1..n], k$}
+	\If{$n = 1$}
+		\State {\Return $A[1]$}
+	\Else
+		\State{Choose pivot element $A[p]$ or MedOfFive}
+		\State{$r \gets PARTITION(A[1...n],p)$}
+		\If{$k < r$}
+			\State{\Return QUICKSELECT(A[1...r-1], k)}
+		\ElsIf {k > r}
+			\State{\Return QUICKSELECT(A[r+1...n], k-r)}
+		\Else
+			\State{\Return $A[r]$}
+		\EndIf
+	\EndIf
+	\EndFunction
+\end{algorithmic}
+
+\subsection{EditDistances(A[1..m], B[1..n])}
+for j <- 1 to n \{ Edit[0,j] <- j  \} \\
+for i <- 1 to m \\
+....Edit[i,0] <- i \\
+....for j <- 1 to n \\
+........if A[i] = B[j] \\
+............Edit[i,j] <- min(edit[i-1, j] + 1, edit[i, j-1] + 1, Edit[i-1, j-1]) \\
+........else \\
+...........Edit[i,j]<-min(edit[i-1, j]+1, edit[i, j-1]+1, Edit[i-1, j-1]+1) \\
+....return Edit[m,n]
+
+\end{multicols}
+\end{document}
+
+% Unassigned hospital offers to preferred not rejected
+% Doctor accepts best offer tentatively, if it gets offered a better once, deny current, accept new, if not, deny. If hospital is rejected post-accept put back in unassigned pool
+% Boston works best for the proposer, who gets the best possible outcome, while the one proposed to get the worst more often than not
